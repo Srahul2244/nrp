@@ -25,14 +25,15 @@ cartRouter.post("/",async(req,res)=>{
     }
 })
 cartRouter.get("/",async(req,res)=>{
-    
+   const data =req.body;
     try{
-       const data = await  cartModel.find()
-       res.send({data:data})
+      const isData =await cartModel.find({userId:data.userId})
+      console.log(isData)
+       res.send({data:isData})
        
     }catch(err){
         console.log(err)
-     res.send({"msg":"soething went wrong"})
+     res.send({"msg":"something went wrong"})
      
     }
 })
