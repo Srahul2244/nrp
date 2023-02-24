@@ -12,10 +12,10 @@ const validator =(req,res,next)=>{
             req.body.userId=userId;
             next()
         }else{
-            res.send({"msg":"please login first"})
+            res.status(401).send({"msg":"please login first"})
         }
     }else{
-        res.send("please login first")
+        res.status(401).send("please login first")
     }
 }
 
