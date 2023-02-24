@@ -6,16 +6,21 @@ const {cartModel} =require("../models/cart.model")
 
 
 orderRouter.post("/",async(req,res)=>{
-    const {userId,data} =req.body;
-    console.log(data)
+    const {userId} =req.body;
+ 
     try{
-          const Data =await orderModel.insertMany(data)
-         //  console.log(Data)
-         if(Data){
-           const DeletedData =await cartModel.deleteMany({userId:userId})
-           console.log(DeletedData)
+      const data =await cartModel.find({userId:userId})
+         if(data){
+            const Data =await orderModel.insertMany(data)
+            //  console.log(Data)
+            if(Data){
+              const DeletedData =await cartModel.deleteMany({userId:userId})
+              console.log(DeletedData)
+            }
+             res.send({"msg":"Ordered Successfully"})
+         }else{
+            res.status(400).send({"msg":"data not found"})
          }
-          res.send({"msg":"Ordered Successfully"})
       }
      catch(err){
         console.log(err)
