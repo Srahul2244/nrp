@@ -1,35 +1,40 @@
 const express= require('express')
 const orderRouter =express.Router()
 const {orderModel} =require("../models/order.model")
-
-
-
-
-
+const {cartModel} =require("../models/cart.model")
 
 
 
 orderRouter.post("/",async(req,res)=>{
-    const data =req.body;
-   //  console.log(data)
+    const {userId,data} =req.body;
+    console.log(data)
     try{
-      const isData =await orderModel.findOne({$and:[{userId:data.userId},{refId:data.refId}]})
-      // console.log(isData)
-      if(isData){
-         isData.quantity =isData.quantity+data.quantity;
-          const Data =await orderModel.findByIdAndUpdate({_id:isData._id},isData)
+          const Data =await orderModel.insertMany(data)
+         //  console.log(Data)
+         if(Data){
+           const DeletedData =await cartModel.deleteMany({userId:userId})
+           console.log(DeletedData)
+         }
           res.send({"msg":"Ordered Successfully"})
-      }else{
-         const Data = new  orderModel(data)
-         await Data.save()
-         res.send({"msg":"Ordered Successfully"})
-      }
       }
      catch(err){
         console.log(err)
      res.send({"msg":"something went wrong"})
      
     }
+})
+
+
+orderRouter.get("/order",async(req,res)=>{
+   try{
+      const Data =await orderModel.find()
+      res.send(Data)
+     }
+    catch(err){
+       console.log(err)
+    res.send({"msg":"something went wrong"})
+    
+   }
 })
 
 module.exports ={orderRouter}
