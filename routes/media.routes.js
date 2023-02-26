@@ -1,6 +1,7 @@
 const express= require('express')
 const productRouter =express.Router()
 const {mediaModel} =require("../models/media.model")
+const {orderModel} =require("../models/order.model")
 
 
 productRouter.get("/:path",async(req,res)=>{
@@ -63,6 +64,27 @@ productRouter.get("/single/:id",async(req,res)=>{
           res.send(err)
       }
   })
+
+
+
+
+  productRouter.get("/order/order",async(req,res)=>{
+    try{
+       const Data =await orderModel.find()
+       res.send(Data)
+      }
+     catch(err){
+        console.log(err)
+     res.send({"msg":"something went wrong"})
+     
+    }
+ })
+
+
+
+
+
+
 
 
 // productRouter.patch("/update/:id",async(req,res)=>{
