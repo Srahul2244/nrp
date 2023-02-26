@@ -7,9 +7,11 @@ const {cartModel} =require("../models/cart.model")
 
 orderRouter.post("/",async(req,res)=>{
     const {userId} =req.body;
+    console.log(userId)
  
     try{
       const data =await cartModel.find({userId:userId})
+      console.log()
          if(data){
             const Data =await orderModel.insertMany(data)
             //  console.log(Data)

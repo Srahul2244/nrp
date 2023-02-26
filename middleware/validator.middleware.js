@@ -3,6 +3,7 @@ require('dotenv').config()
 
 const validator =(req,res,next)=>{
     const token =req.headers.authorization
+    // console.log(token)
     if(token){
         const decoded=jwt.verify(token,process.env.secret)
         
